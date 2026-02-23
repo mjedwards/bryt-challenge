@@ -1,5 +1,5 @@
 import { client } from "@/lib/shopify/serverClient";
-import { getProducts } from "./graphql/query";
+import { getProducts, getProductByHandle } from "./graphql/query";
 
 type PriceDetails = {
 	amount: string;
@@ -10,13 +10,19 @@ type PriceInfo = {
 	minVariantPrice: PriceDetails;
 	maxVariantPrice: PriceDetails;
 };
-
+type ProductImage = {
+	url: string;
+	altText: string | "";
+	width: number;
+	height: number;
+};
 type ProductInfo = {
 	id: string;
 	title: string;
 	handle: string;
 	availableForSale: boolean;
 	createdAt: string;
+	featuredImage: ProductImage;
 	priceRange: PriceInfo;
 };
 
@@ -35,6 +41,30 @@ type ProductResponse = {
 	};
 };
 
+type ProductByHandleResponse = {
+	product: ProductInfo | null;
+};
+
+// fetch one product by handle
+export const getProduct = async (
+	productHandle: string,
+): Promise<ProductInfo | null> => {
+	const resp = await client.request<ProductByHandleResponse>(
+		getProductByHandle,
+		{
+			variables: {
+				handle: productHandle,
+			},
+		},
+	);
+
+	if (resp.errors) {
+		throw new Error("Product request failed.");
+	}
+
+	return resp.data?.product ?? null;
+};
+
 // fetch all products
 export const getAllProducts = async (
 	pageSize = 250,
@@ -50,7 +80,6 @@ export const getAllProducts = async (
 				after: cursor,
 			},
 		});
-		console.log(resp.data.products);
 
 		if (resp.errors) {
 			throw new Error("Product Request Failed.");
