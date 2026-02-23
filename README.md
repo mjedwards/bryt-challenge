@@ -158,3 +158,31 @@ NEXT_PUBLIC_SHOPIFY_STOREFRONT_API_VERSION="2025-10"
 
 1. `pnpm dev` -> Start development server
 2. `pnpm codegen` -> Generate storefront api types (`/lib/shopify/graphql`)
+
+
+### My comments
+Progress Summary
+
+- Implemented Shopify product listing from the provided collection/store data (image, title, price, Quick View trigger)
+
+- Built Quick View modal foundation with product detail fetch by handle
+
+- Implemented modal loading/error/content rendering states
+
+- Added modal close interactions (close button + backdrop click) and basic modal layout (mobile stacked / desktop two-column structure)
+
+In Progress / Not Completed Within Time Limit
+
+- Full variant selection state and variant resolution logic
+
+- Disabling invalid/unavailable option combinations
+
+- Variant-driven image/price updates
+
+- Add to bag simulated loading/success flow
+
+- Motion animations and final accessibility polish (focus return, etc.)
+
+Notes
+
+Within the timeframe I was given I focused on what I felt would take most time. If given additional time I would complete the modal and add the required features.
